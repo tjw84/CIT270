@@ -1,41 +1,44 @@
-const express = require('express');//Import express library
+const express = require('express'); //Import express library
 const bodyParser = require('body-parser'); //call body parser middleware
-const app = express();//Use express
+const md5 = require('md5'); //import md5 for future use
+const app = express(); //Use express (call express function into this variable as an object)
 const port = 3000;
-const redis = require('redis');
+const {createClient} = require('redis');
+const redisClient = createClient({
+    socket:{
+        port:6379,
+        host:'127.0.0.1'
 
-const redisClient = redis.createdClient('hget passwords');
+    } 
+});
+redisClient.connect();
 
-// const md5 = require('md5');
-//const hashedPasswordfromuser = md5(req.body.password);
-/* hset passwords scmurdock@gmail.com P@ssW0rd
-hget passwords scmurdock@gmail.com hash
-hset myhash password //password; //set hash to the hash of the password given
+const validatePass = async(request, response)=>{
+const requestHashedPassword = md5(request.body.password);
+const redisHashedPassword = await redisClient.hGet('passwords', request.body.userName);
+const loginRequest = request.body;
+console.log("Request Body",JSON.stringify/request.body);
 
-*/
-
-
-app.use(bodyParser.json());//use middleware
-
-app.listen(port,()=>{console.log("I am listening! "+port)});
-
-
-app.post('/login',(request,response)=>{
-    const hashedPassword = md5(req.body.password);
-    const passwordHashRedis = redisClient.hGet('password');
-    const loginRequest = request.body;
-    //console.log(JSON.stringify(request.body));
-    if (loginRequest.userName=='scmurdock@gmail.com' && loginRequest.password=='5ca33d221fd09f16c1ecba9c1aadc3eb')
-    {
+if (
+    requestHashedPassword==redisHashedPassword){
         response.status(200);
         response.send('Welcome');
+        console.log('Welcome!')
     } else {
         response.status(401);
         response.send('Unauthorized');
     }
-});
-
-const validatePass = (request, respose)=>{}
+}
 app.get('/',(request,response)=>{
     response.send("Hello")
 }); //Response
+app.post('/login',validatePass);
+
+const signup = async(request, response)=>{
+    const userPass = md5(request.body.password);
+    redisClient.hSet(userName,passwords);
+    response.send('This user is bad');
+
+}
+
+app.post('/signup',signup);
