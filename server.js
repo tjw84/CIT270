@@ -23,7 +23,7 @@ if (
     requestHashedPassword==redisHashedPassword){
         response.status(200);
         response.send('Welcome');
-        console.log('Welcome!')
+        console.log('Welcome!');//? pasted it but that should not work...
     } else {
         response.status(401);
         response.send('Unauthorized');
@@ -40,5 +40,7 @@ const signup = async(request, response)=>{
     response.send('This user is bad');
 
 }
+
+
 
 app.post('/signup',signup);
