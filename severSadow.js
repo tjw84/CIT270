@@ -80,4 +80,14 @@ const signup = async(request, response)=>{
 
 }
 
+/* 
+const savePassword = async(request, response)=>{
+    const clearTextPassword = reqest.body.password;
+    const hashedPass = md5(clearTextPassword);
+    await redisClient.hSet('passwords', request.body.userName, request.body.password); //this is wrong
+    response.status(200);//200 means ok
+    response.send({result:"Saved"});
+}
+*/
+
 app.post('/signup',signup);
