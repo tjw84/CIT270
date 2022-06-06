@@ -3,7 +3,8 @@ const bodyParser = require('body-parser'); //call body parser middleware
 //const { createClient } = require('node-redis');
 const md5 = require('md5'); //import md5 for future use
 const app = express(); //Use express (call express function into this variable as an object)
-const port = 3000;
+//const port = 3000;
+const port = 443;
 //const redis = require('redis');
 const {createClient} = require('redis');
 const redisClient = createClient({
@@ -30,7 +31,13 @@ app.use(bodyParser.json());//use middleware
 
 app.listen(port,()=>{console.log("I am listening! "+port)});
 
-
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cer: fs.readFileSync('cerver.cert'),
+},  
+    app).listen(port, () =>{
+    console.log ('I\'m listening');
+})
 /*app.post('/login',(request,response)=>{
     const hashedPassword = md5(req.body.password);
     const passwordHashRedis = redisClient.hGet('password');
