@@ -4,6 +4,10 @@ const md5 = require('md5'); //import md5 for future use
 const app = express(); //Use express (call express function into this variable as an object)
 const port = 443;//4043 or 443
 const {createClient} = require('redis');
+//const { response } = require('redis');
+const fstat  = require('fs');
+const https = require('https');
+
 const redisClient = createClient({
     socket:{
         port:6379,
@@ -11,16 +15,26 @@ const redisClient = createClient({
 
     } 
 });
-redisClient.connect();
 
 const validatePass = async(request, response)=>{
 const requestHashedPassword = md5(request.body.password);
 const redisHashedPassword = await redisClient.hGet('passwords', request.body.userName);
-const loginRequest = request.body;
-const { response } = require('redis');
-const { fstat } = require('fs');
+// const loginRequest = request.body;
 
-console.log("Request Body",JSON.stringify/request.body);
+if (
+    requestHashedPassword==redisHashedPassword){
+        response.status(200);
+        response.send('Welcome');
+        console.log('Welcome!');//
+    } else {
+        response.status(401);
+        response.send('Unauthorized');
+    }
+}
+
+
+
+// console.log("Request Body",JSON.stringify/request.body);  
 
 app.use(bodyParser.json());//use middleware
 
@@ -30,19 +44,11 @@ https.createServer({
     passphrase: 'P@ssw0rd',
 },  
     app).listen(port, () =>{
+    await redisClient.connect();
     console.log ('I\'m listening');
 })
 
-if (
-    requestHashedPassword==redisHashedPassword){
-        response.status(200);
-        response.send('Welcome');
-        console.log('Welcome!');//? pasted it but that should not work...
-    } else {
-        response.status(401);
-        response.send('Unauthorized');
-    }
-}
+
 app.get('/',(request,response)=>{
     response.send("Hello")
 }); //Response
