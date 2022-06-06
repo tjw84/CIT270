@@ -2,7 +2,7 @@ const express = require('express'); //Import express library
 const bodyParser = require('body-parser'); //call body parser middleware
 const md5 = require('md5'); //import md5 for future use
 const app = express(); //Use express (call express function into this variable as an object)
-const port = 443;//4043 or 443
+const port = 4043;//4043 or 443
 const {createClient} = require('redis');
 //const { response } = require('redis');
 const fstat  = require('fs');
@@ -43,7 +43,7 @@ https.createServer({
     cer: fs.readFileSync('server.cert'),
     passphrase: 'P@ssw0rd',
 },  
-    app).listen(port, () =>{
+    app).listen(port, async() =>{
     await redisClient.connect();
     console.log ('I\'m listening');
 })
