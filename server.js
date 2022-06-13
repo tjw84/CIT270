@@ -5,7 +5,7 @@ const app = express(); //Use express (call express function into this variable a
 const port = 4043;//4043 or 443
 const {createClient} = require('redis');
 //const { response } = require('redis');
-const fstat  = require('fs');
+const fs = require('fs');
 const https = require('https');
 
 const redisClient = createClient({
