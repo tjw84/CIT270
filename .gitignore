@@ -1,3 +1,5 @@
 node_modules
 redis
 serverShadow.js
+server.cert
+server.key
