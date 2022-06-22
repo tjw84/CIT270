@@ -16,7 +16,7 @@ const redisClient = createClient({
 const validatePass = async(request, response)=>{
 const requestHashedPassword = md5(request.body.password);
 const redisHashedPassword = await redisClient.hGet('passwords', request.body.userName);
-
+// test
 
 if (
     requestHashedPassword==redisHashedPassword){
