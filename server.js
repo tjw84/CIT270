@@ -9,11 +9,9 @@ const fs = require('fs');
 const https = require('https');
 
 const redisClient = createClient({
-    socket:{
-        port:6379,
-        host:'10.128.0.2'
 
-    } 
+    url: 'redis://default@10.128.0.2'
+
 });
 
 const validatePass = async(request, response)=>{
