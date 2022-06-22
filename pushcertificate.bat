@@ -1,0 +1,1 @@
+scp server.key server.cert trevor@trevorred.cit270.com:~/CIT270/ 

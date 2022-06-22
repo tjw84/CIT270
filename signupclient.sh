@@ -2,50 +2,33 @@ const express = require('express'); //Import express library
 const bodyParser = require('body-parser'); //call body parser middleware
 const md5 = require('md5'); //import md5 for future use
 const app = express(); //Use express (call express function into this variable as an object)
-const port = 4043;//4043 or 443
+const port = 3000;
 const {createClient} = require('redis');
-const fs = require('fs');
-const https = require('https');
-
 const redisClient = createClient({
+    socket:{
+        port:6379,
+        host:'127.0.0.1'
 
-    url: 'redis://default@10.128.0.2',
-
+    } 
 });
+redisClient.connect();
 
 const validatePass = async(request, response)=>{
 const requestHashedPassword = md5(request.body.password);
 const redisHashedPassword = await redisClient.hGet('passwords', request.body.userName);
-
+const loginRequest = request.body;
+console.log("Request Body",JSON.stringify/request.body);
 
 if (
     requestHashedPassword==redisHashedPassword){
         response.status(200);
         response.send('Welcome');
-        console.log('Welcome!');//
+        console.log('Welcome!')//;? pasted it but that should not work...
     } else {
         response.status(401);
         response.send('Unauthorized');
     }
 }
-
-
-
-// console.log("Request Body",JSON.stringify/request.body);  
-
-app.use(bodyParser.json());//use middleware
-
-https.createServer({
-    key: fs.readFileSync('server.key'),
-    cer: fs.readFileSync('server.cert'),
-    passphrase: 'P@ssw0rd',
-},  
-    app).listen(port, async() =>{
-    await redisClient.connect();
-    console.log ('I\'m listening');
-})
-
-
 app.get('/',(request,response)=>{
     response.send("Hello")
 }); //Response
@@ -58,6 +41,14 @@ const signup = async(request, response)=>{
 
 }
 
-
+/* 
+const savePassword = async(request, response)=>{
+    const clearTextPassword = reqest.body.password;
+    const hashedPass = md5(clearTextPassword);
+    await redisClient.hSet('passwords', request.body.userName, request.body.password); //this is wrong
+    response.status(200);//200 means ok
+    response.send({result:"Saved"});
+}
+*/
 
 app.post('/signup',signup);
