@@ -1,1 +1,1 @@
-scp server.key server.cert trevor@trevorred.cit270.com:~/CIT270/ 
+scp server.key server.cert trevor@trevorno.cit270.com:~/CIT270/ 
