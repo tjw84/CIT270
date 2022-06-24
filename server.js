@@ -37,7 +37,7 @@ app.use(bodyParser.json());//use middleware
 
 https.createServer({
     key: fs.readFileSync('server.key'),
-    cer: fs.readFileSync('server.cert'),
+    cert: fs.readFileSync('server.cert'),
     passphrase: 'P@ssw0rd',
 },  
     app).listen(port, async() =>{
