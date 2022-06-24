@@ -53,7 +53,7 @@ app.post('/login',validatePass);
 
 const signup = async(request, response)=>{
     const userPass = md5(request.body.password);
-    redisClient.hSet(request.body.userName,userPass);
+    redisClient.hSet('passwords',request.body.userName,userPass);
     response.send('This user is bad');
 
 }
