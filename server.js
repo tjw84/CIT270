@@ -2,7 +2,7 @@ const express = require('express'); //Import express library
 const bodyParser = require('body-parser'); //call body parser middleware
 const md5 = require('md5'); //import md5 for future use
 const app = express(); //Use express (call express function into this variable as an object)
-const port = 4043;//4043 or 443
+const port = 443;//4043 or 443
 const {createClient} = require('redis');
 const fs = require('fs');
 const https = require('https');
@@ -16,7 +16,7 @@ const redisClient = createClient({
 const validatePass = async(request, response)=>{
 const requestHashedPassword = md5(request.body.password);
 const redisHashedPassword = await redisClient.hGet('passwords', request.body.userName);
-
+// test
 
 if (
     requestHashedPassword==redisHashedPassword){
