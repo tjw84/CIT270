@@ -20,7 +20,7 @@ spec:
         args: ["run","start"]
         ports:
          - containerPort: 443
-        rescources:
+        resources:
           limits:
             cpu: ".125"
             memory: "500Mi"
