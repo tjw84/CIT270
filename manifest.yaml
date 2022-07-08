@@ -15,7 +15,7 @@ spec:
     spec:
      containers:
       - name: rianravengaurd-cit270
-        image: rianravengaurd-cit270
+        image: rianravengaurd/cit270
         command: ['npm']
         args: ["run","start"]
         ports:
