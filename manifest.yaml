@@ -1,0 +1,41 @@
+# 2022 Trevor Wayman
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rianravengaurd-cit270
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: rianravengaurd-cit270
+  template:
+    metadata:
+     labels:
+       app: rianravengaurd-cit270
+    spec:
+     containers:
+      - name: rianravengaurd-cit270
+        image: rianravengaurd-cit270
+        command: ['npm']
+        args: ["run","start"]
+        ports:
+         - containerPort: 443
+        rescources:
+          limits:
+            cpu: ".125"
+            memory: "500Mi"
+          requests:
+            cpu: ".1"
+            memory: "250Mi"
+        livnessProbe:
+          httpGet:
+            path: /
+            port: 443
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        redinessProbe:
+          httpGet:
+            path: /
+            port: 443
+          initialDelaySeconds: 3
+          periodSeconds: 3
