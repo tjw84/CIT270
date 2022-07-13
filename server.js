@@ -35,9 +35,9 @@ if (
 
 app.use(bodyParser.json());//use middleware
 
-app.listen(port, async() =>{
+app.listen(port, async()=>{
     await redisClient.connect();
-    console.log(port,' I\'m listening')
+    console.log(' I\'m listening');
 });
 
 // https.createServer({
