@@ -9,8 +9,8 @@ const https = require('https');
 
 const redisClient = createClient({
 
-    url: 'redis://default@10.128.0.2',
-//      url: 'redis://default@35.202.118.75',
+//    url: 'redis://default@10.128.0.2', // If using cloud terminal than this will need to be used instead 
+      url: 'redis://default@35.202.118.75', // This is the exteral redis if not using cloud terminal
 
 });
 
@@ -40,16 +40,6 @@ app.listen(port, async()=>{
     await redisClient.connect();
     console.log(' I\'m listening');
 });
-
-// https.createServer({
-//     key: fs.readFileSync('server.key'),
-//     cert: fs.readFileSync('server.cert'),
-//     passphrase: 'P@ssw0rd',
-// },  
-//     app).listen(port, async() =>{
-//     await redisClient.connect();
-//     console.log ('I\'m listening');
-// });
 
 
 app.get('/',(request,response)=>{
